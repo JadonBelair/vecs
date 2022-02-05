@@ -1,6 +1,6 @@
-use vecs::Vec2;
+use vecs::*;
 fn main() {
-    let v = Vec2::new(5, 10);
+    let v = Vec2::new(5, -10);
 
     let v2 = Vec2::new(10, 30);
 
