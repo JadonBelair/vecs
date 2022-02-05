@@ -1,7 +1,7 @@
 //! Useful vector math implementations
 
 use num::Num;
-use std::ops::{Add, Sub};
+use std::{fmt, ops::{Add, Sub}};
 
 #[allow(unused)]
 
@@ -37,6 +37,12 @@ impl<T: Num> Sub for Vec2<T> {
 
     fn sub(self, other: Self) -> Self {
         Self {x: self.x - other.x, y: self.y - other.y}
+    }
+}
+
+impl<T: Num + std::fmt::Display> fmt::Display for Vec2<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
     }
 }
 
