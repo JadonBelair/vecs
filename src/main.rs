@@ -6,5 +6,5 @@ fn main() {
 
     let v3 = v.dot(v2);
 
-    println!("{:?}", v3);
+    println!("{}", v3);
 }
