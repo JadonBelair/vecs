@@ -3,6 +3,7 @@ name = "vecs"
 version = "0.1.0"
 edition = "2021"
 authors = ["JadonBelair"]
+license = "MIT"
 
 description = "A Simple Vector Math Crate"
 keywords = ["vectors", "vector"]
