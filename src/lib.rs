@@ -38,14 +38,9 @@
 
 use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign, Mul, Div}};
 
-// mod vec2;
-// mod vec3;
 mod vecs;
 
 pub use vecs::{vec2::Vec2, vec3::Vec3};
-
-// pub use vec2::Vec2;
-// pub use vec3::Vec3;
 
 #[cfg(test)]
 mod tests {

@@ -1,7 +1,6 @@
 use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign}};
 use num_traits::Float;
 
-
 /// implementation of a 3D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub struct Vec3<T: Float> {
