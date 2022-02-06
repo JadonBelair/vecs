@@ -1,4 +1,4 @@
-use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign, Div, Mul}};
+use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign, Div, Mul, Neg}};
 use num_traits::Float;
 
 /// implementation of a 3D vector
@@ -70,20 +70,40 @@ impl<T: Float + Copy> Vec3<T> {
 
         Vec3::new(x, -y, z)
     }
+
+    pub fn length(&self) -> T {
+        (self.x.powi(2) + self.y.powi(2) +self.z.powi(2)).sqrt()
+    }
+
+    pub fn normalize(&self) -> Vec3<T> {
+        let length = self.length();
+
+        *self / length
+    }
+    
+    pub fn abs(&self) -> Vec3<T> {
+        Vec3::new(self.x.abs(), self.y.abs(), self.z.abs())
+    }
+
+    pub fn set(&mut self, x: T, y: T, z: T) {
+        self.x = x;
+        self.y = y;
+        self.z = z;
+    }
 }
 
 impl<T: Float> Add for Vec3<T> {
-    type Output = Self;
+    type Output = Vec3<T>;
 
-    fn add(self, rhs: Self) -> Self {
+    fn add(self, rhs: Self) -> Self::Output {
         Self { x: self.x + rhs.x, y: self.y + rhs.y, z: self.z + rhs.z }
     }
 }
 
 impl<T: Float> Sub for Vec3<T> {
-    type Output = Self;
+    type Output = Vec3<T>;
 
-    fn sub(self, rhs: Self) -> Self {
+    fn sub(self, rhs: Self) -> Self::Output {
         Self { x: self.x - rhs.x, y: self.y - rhs.y, z: self.z - rhs.z }
     }
 }
@@ -107,7 +127,7 @@ impl<T: Float + SubAssign> SubAssign for Vec3<T> {
 impl<T: Float + Mul + Copy> Mul<T> for Vec3<T> {
     type Output = Vec3<T>;
     
-    fn mul(self, rhs: T) -> Vec3<T> {
+    fn mul(self, rhs: T) -> Self::Output {
         Vec3::new(self.x * rhs, self.y * rhs, self.z * rhs)
     }
 
@@ -124,7 +144,7 @@ impl<T: Float> Mul<Vec3<T>> for f32 where f32: Mul<T, Output = T> {
 impl<T: Float + Mul + Copy> Mul<Vec3<T>> for Vec3<T> {
     type Output = Vec3<T>;
     
-    fn mul(self, rhs: Vec3<T>) -> Vec3<T> {
+    fn mul(self, rhs: Vec3<T>) -> Self::Output {
         Vec3::new(self.x * rhs.x, self.y * rhs.y, self.z * rhs.z)
     }
 
@@ -133,7 +153,7 @@ impl<T: Float + Mul + Copy> Mul<Vec3<T>> for Vec3<T> {
 impl<T: Float + Div + Copy> Div<T> for Vec3<T> {
     type Output = Vec3<T>;
     
-    fn div(self, rhs: T) -> Vec3<T> {
+    fn div(self, rhs: T) -> Self::Output {
         Vec3::new(self.x / rhs, self.y / rhs, self.z / rhs)
     }
 
@@ -150,10 +170,18 @@ impl<T: Float> Div<Vec3<T>> for f32 where f32: Div<T, Output = T> {
 impl<T: Float + Div + Copy> Div<Vec3<T>> for Vec3<T> {
     type Output = Vec3<T>;
     
-    fn div(self, rhs: Vec3<T>) -> Vec3<T> {
+    fn div(self, rhs: Vec3<T>) -> Self::Output {
         Vec3::new(self.x / rhs.x, self.y / rhs.y, self.z / rhs.z)
     }
 
+}
+
+impl<T: Float> Neg for Vec3<T> {
+    type Output = Vec3<T>;
+
+    fn neg(self) -> Self::Output {
+        Vec3::new(-self.x, -self.y, -self.z)
+    }
 }
 
 impl<T: Float + fmt::Display> fmt::Display for Vec3<T> {
