@@ -34,18 +34,18 @@
 //! }
 //! ```
 
-use std::{fmt, ops::{Add, Sub, Mul, Neg}};
+use std::{fmt, ops::{Add, Sub, Mul, Neg, AddAssign, SubAssign}};
 
 #[allow(unused)]
 
 /// implementation of a 2D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec2<T: Add + Sub + Mul> {
+pub struct Vec2<T: Mul> {
     x: T,
     y: T
 }
 
-impl<T: Add<Output = T> + Sub + Mul<Output = T> + Copy> Vec2<T> {
+impl<T: Add<Output = T> + Mul<Output = T> + Copy> Vec2<T> {
     /// returns a new Vec2 with the specified coordinates
     /// 
     /// # Examples
@@ -84,7 +84,7 @@ impl<T: Add<Output = T> + Sub + Mul<Output = T> + Copy> Vec2<T> {
     }
 }
 
-impl<T: Sub + Mul + Add<Output = T>> Add for Vec2<T> {
+impl<T: Add<Output = T> + Mul> Add for Vec2<T> {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
@@ -92,7 +92,7 @@ impl<T: Sub + Mul + Add<Output = T>> Add for Vec2<T> {
     }
 }
 
-impl<T: Sub<Output = T> + Add + Mul> Sub for Vec2<T> {
+impl<T: Sub<Output = T> + Mul> Sub for Vec2<T> {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
@@ -100,7 +100,21 @@ impl<T: Sub<Output = T> + Add + Mul> Sub for Vec2<T> {
     }
 }
 
-impl<T: Add + Sub + Mul + std::fmt::Display> fmt::Display for Vec2<T> {
+impl<T: AddAssign + Mul> AddAssign for Vec2<T> {
+    fn add_assign(&mut self, rhs: Self) {
+        self.x += rhs.x;
+        self.y += rhs.y;
+    }
+}
+
+impl<T: SubAssign + Mul> SubAssign for Vec2<T> {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+    }
+}
+
+impl<T: Mul + fmt::Display> fmt::Display for Vec2<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {})", self.x, self.y)
     }
@@ -108,13 +122,13 @@ impl<T: Add + Sub + Mul + std::fmt::Display> fmt::Display for Vec2<T> {
 
 /// implementation of a 3D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec3<T: Add + Sub + Mul + Neg> {
+pub struct Vec3<T: Mul> {
     x: T,
     y: T,
     z: T
 }
 
-impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy + Neg<Output = T>> Vec3<T> {
+impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Neg<Output = T> + Copy> Vec3<T> {
     /// returns a new Vec3 with the specified coordinates
     ///
     /// # Examples
@@ -177,7 +191,7 @@ impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy + Neg<Output 
     }
 }
 
-impl<T: Add<Output = T> + Sub + Mul + Neg> Add for Vec3<T> {
+impl<T: Add<Output = T> + Mul + Neg> Add for Vec3<T> {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
@@ -185,7 +199,7 @@ impl<T: Add<Output = T> + Sub + Mul + Neg> Add for Vec3<T> {
     }
 }
 
-impl<T: Add + Sub<Output = T> + Mul + Neg> Sub for Vec3<T> {
+impl<T: Sub<Output = T> + Mul + Neg> Sub for Vec3<T> {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
@@ -193,7 +207,7 @@ impl<T: Add + Sub<Output = T> + Mul + Neg> Sub for Vec3<T> {
     }
 }
 
-impl<T: Add + Sub + Mul + Neg + std::fmt::Display> fmt::Display for Vec3<T> {
+impl<T: Mul + Neg + fmt::Display> fmt::Display for Vec3<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {}, {})", self.x, self.y, self.z)
     }
