@@ -1,4 +1,4 @@
-use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign}};
+use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign, Div, Mul}};
 use num_traits::Float;
 
 /// implementation of a 3D vector
@@ -102,6 +102,58 @@ impl<T: Float + SubAssign> SubAssign for Vec3<T> {
         self.y -= rhs.y;
         self.z -= rhs.z;
     }
+}
+
+impl<T: Float + Mul + Copy> Mul<T> for Vec3<T> {
+    type Output = Vec3<T>;
+    
+    fn mul(self, rhs: T) -> Vec3<T> {
+        Vec3::new(self.x * rhs, self.y * rhs, self.z * rhs)
+    }
+
+}
+
+impl<T: Float> Mul<Vec3<T>> for f32 where f32: Mul<T, Output = T> {
+    type Output = Vec3<T>;
+
+    fn mul(self, rhs: Vec3<T>) -> Self::Output {
+        Vec3::new(self * rhs.x, self * rhs.y, self * rhs.z)
+    }
+}
+
+impl<T: Float + Mul + Copy> Mul<Vec3<T>> for Vec3<T> {
+    type Output = Vec3<T>;
+    
+    fn mul(self, rhs: Vec3<T>) -> Vec3<T> {
+        Vec3::new(self.x * rhs.x, self.y * rhs.y, self.z * rhs.z)
+    }
+
+}
+
+impl<T: Float + Div + Copy> Div<T> for Vec3<T> {
+    type Output = Vec3<T>;
+    
+    fn div(self, rhs: T) -> Vec3<T> {
+        Vec3::new(self.x / rhs, self.y / rhs, self.z / rhs)
+    }
+
+}
+
+impl<T: Float> Div<Vec3<T>> for f32 where f32: Div<T, Output = T> {
+    type Output = Vec3<T>;
+
+    fn div(self, rhs: Vec3<T>) -> Self::Output {
+        Vec3::new(self / rhs.x, self / rhs.y, self / rhs.z)
+    }
+}
+
+impl<T: Float + Div + Copy> Div<Vec3<T>> for Vec3<T> {
+    type Output = Vec3<T>;
+    
+    fn div(self, rhs: Vec3<T>) -> Vec3<T> {
+        Vec3::new(self.x / rhs.x, self.y / rhs.y, self.z / rhs.z)
+    }
+
 }
 
 impl<T: Float + fmt::Display> fmt::Display for Vec3<T> {
