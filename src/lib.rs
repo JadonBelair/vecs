@@ -7,8 +7,8 @@
 //! 
 //! fn main() {
 //!     // creates 2 Vec2 objects
-//!     let v1 = Vec2::new(12, 6);
-//!     let v2 = Vec2::new(17, 9);
+//!     let v1 = Vec2::new(12., 6.);
+//!     let v2 = Vec2::new(17., 9.);
 //! 
 //!     // adds the vectors together
 //!     let v3 = v1 + v2;
@@ -23,8 +23,8 @@
 //! 
 //! fn main() {
 //!     // creates 2 Vec3 objects
-//!     let v1 = Vec3::new(2, 6, 7);
-//!     let v2 = Vec3::new(5, 3, 8);
+//!     let v1 = Vec3::new(2., 6., 7.);
+//!     let v2 = Vec3::new(5., 3., 8.);
 //! 
 //!     // gets the 2 vectors cross product
 //!     let v3 = v1.cross(v2);

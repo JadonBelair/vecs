@@ -17,10 +17,10 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2 called v1
-    /// let v1 = Vec2::new(1, 2);
+    /// let v1 = Vec2::new(1., 2.);
     /// 
     /// // creates a new Vec2 call v2
-    /// let v2 = Vec2::new(10, 20);
+    /// let v2 = Vec2::new(10., 20.);
     /// ```
     pub fn new(x: T, y: T) -> Vec2<T> {
         Vec2 { x, y }
@@ -34,8 +34,8 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates 2 new Vec2 objects
-    /// let v1 = Vec2::new(1, 2);
-    /// let v2 = Vec2::new(1, 2);
+    /// let v1 = Vec2::new(1., 2.);
+    /// let v2 = Vec2::new(1., 2.);
     /// 
     /// // stores their dot product
     /// let d = v1.dot(v2);
