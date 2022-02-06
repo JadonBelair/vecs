@@ -1,10 +1,10 @@
 use vecs::*;
 fn main() {
-    let mut v = Vec2::new(5, -10);
+    let v = Vec2::new(1., 1.);
 
-    let v2 = Vec2::new(10, 30);
+    let v2 = 5. * v;
 
-    v += v2;
+    let v3 = v2 / v;
 
-    println!("{}", v);
+    println!("{}", v3);
 }

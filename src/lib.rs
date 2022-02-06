@@ -34,18 +34,19 @@
 //! }
 //! ```
 
-use std::{fmt, ops::{Add, Sub, Mul, Neg, AddAssign, SubAssign}};
-
 #[allow(unused)]
+
+use std::{fmt, ops::{Add, Sub, AddAssign, SubAssign, Mul, Div}};
+use num_traits::Float;
 
 /// implementation of a 2D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec2<T: Mul> {
+pub struct Vec2<T: Float> {
     x: T,
     y: T
 }
 
-impl<T: Add<Output = T> + Mul<Output = T> + Copy> Vec2<T> {
+impl<T: Float + Copy> Vec2<T> {
     /// returns a new Vec2 with the specified coordinates
     /// 
     /// # Examples
@@ -82,39 +83,105 @@ impl<T: Add<Output = T> + Mul<Output = T> + Copy> Vec2<T> {
     pub fn dot(&self, other: Vec2<T>) -> T {
         self.x * other.x + self.y * other.y
     }
-}
 
-impl<T: Add<Output = T> + Mul> Add for Vec2<T> {
-    type Output = Self;
+    pub fn length(&self) -> T {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
 
-    fn add(self, other: Self) -> Self {
-        Self {x: self.x + other.x, y: self.y + other.y}
+    pub fn normal(&self) -> Vec2<T> {
+        Vec2::new(-self.y, self.x)
+    }
+
+    pub fn normalize(&self) -> Vec2<T> {
+        let length = self.length();
+
+        Vec2::new(self.x / length, self.y / length)
     }
 }
 
-impl<T: Sub<Output = T> + Mul> Sub for Vec2<T> {
+impl<T: Float> Add for Vec2<T> {
     type Output = Self;
 
-    fn sub(self, other: Self) -> Self {
-        Self {x: self.x - other.x, y: self.y - other.y}
+    fn add(self, rhs: Self) -> Self {
+        Self {x: self.x + rhs.x, y: self.y + rhs.y}
     }
 }
 
-impl<T: AddAssign + Mul> AddAssign for Vec2<T> {
+impl<T: Float> Sub for Vec2<T> {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self {
+        Self {x: self.x - rhs.x, y: self.y - rhs.y}
+    }
+}
+
+impl<T: Float + AddAssign> AddAssign for Vec2<T> {
     fn add_assign(&mut self, rhs: Self) {
         self.x += rhs.x;
         self.y += rhs.y;
     }
 }
 
-impl<T: SubAssign + Mul> SubAssign for Vec2<T> {
+impl<T: Float + SubAssign> SubAssign for Vec2<T> {
     fn sub_assign(&mut self, rhs: Self) {
         self.x -= rhs.x;
         self.y -= rhs.y;
     }
 }
 
-impl<T: Mul + fmt::Display> fmt::Display for Vec2<T> {
+impl<T: Float + Mul + Copy> Mul<T> for Vec2<T> {
+    type Output = Vec2<T>;
+    
+    fn mul(self, rhs: T) -> Vec2<T> {
+        Vec2::new(self.x * rhs, self.y * rhs)
+    }
+
+}
+
+impl<T: Float> Mul<Vec2<T>> for f32 where f32: Mul<T, Output = T> {
+    type Output = Vec2<T>;
+
+    fn mul(self, rhs: Vec2<T>) -> Self::Output {
+        Vec2::new(self * rhs.x, self * rhs.y)
+    }
+}
+
+impl<T: Float + Mul + Copy> Mul<Vec2<T>> for Vec2<T> {
+    type Output = Vec2<T>;
+    
+    fn mul(self, rhs: Vec2<T>) -> Vec2<T> {
+        Vec2::new(self.x * rhs.x, self.y * rhs.y)
+    }
+
+}
+
+impl<T: Float + Div + Copy> Div<T> for Vec2<T> {
+    type Output = Vec2<T>;
+    
+    fn div(self, rhs: T) -> Vec2<T> {
+        Vec2::new(self.x / rhs, self.y / rhs)
+    }
+
+}
+
+impl<T: Float> Div<Vec2<T>> for f32 where f32: Div<T, Output = T> {
+    type Output = Vec2<T>;
+
+    fn div(self, rhs: Vec2<T>) -> Self::Output {
+        Vec2::new(self / rhs.x, self / rhs.y)
+    }
+}
+
+impl<T: Float + Div + Copy> Div<Vec2<T>> for Vec2<T> {
+    type Output = Vec2<T>;
+    
+    fn div(self, rhs: Vec2<T>) -> Vec2<T> {
+        Vec2::new(self.x / rhs.x, self.y / rhs.y)
+    }
+
+}
+
+impl<T: Float + fmt::Display> fmt::Display for Vec2<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {})", self.x, self.y)
     }
@@ -122,13 +189,13 @@ impl<T: Mul + fmt::Display> fmt::Display for Vec2<T> {
 
 /// implementation of a 3D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec3<T: Mul> {
+pub struct Vec3<T: Float> {
     x: T,
     y: T,
     z: T
 }
 
-impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Neg<Output = T> + Copy> Vec3<T> {
+impl<T: Float + Copy> Vec3<T> {
     /// returns a new Vec3 with the specified coordinates
     ///
     /// # Examples
@@ -191,23 +258,39 @@ impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Neg<Output = T> + 
     }
 }
 
-impl<T: Add<Output = T> + Mul + Neg> Add for Vec3<T> {
+impl<T: Float> Add for Vec3<T> {
     type Output = Self;
 
-    fn add(self, other: Self) -> Self {
-        Self { x: self.x + other.x, y: self.y + other.y, z: self.z + other.z }
+    fn add(self, rhs: Self) -> Self {
+        Self { x: self.x + rhs.x, y: self.y + rhs.y, z: self.z + rhs.z }
     }
 }
 
-impl<T: Sub<Output = T> + Mul + Neg> Sub for Vec3<T> {
+impl<T: Float> Sub for Vec3<T> {
     type Output = Self;
 
-    fn sub(self, other: Self) -> Self {
-        Self { x: self.x - other.x, y: self.y - other.y, z: self.z - other.z }
+    fn sub(self, rhs: Self) -> Self {
+        Self { x: self.x - rhs.x, y: self.y - rhs.y, z: self.z - rhs.z }
     }
 }
 
-impl<T: Mul + Neg + fmt::Display> fmt::Display for Vec3<T> {
+impl<T: Float + AddAssign> AddAssign for Vec3<T> {
+    fn add_assign(&mut self, rhs: Self) {
+        self.x += rhs.x;
+        self.y += rhs.y;
+        self.z += rhs.z;
+    }
+}
+
+impl<T: Float + SubAssign> SubAssign for Vec3<T> {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
+    }
+}
+
+impl<T: Float + fmt::Display> fmt::Display for Vec3<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {}, {})", self.x, self.y, self.z)
     }
@@ -221,57 +304,57 @@ mod tests {
 
     #[test]
     fn vec2_equal() {
-        assert_eq!(Vec2::new(5, -5), Vec2::new(5, -5));
+        assert_eq!(Vec2::new(5., -5.), Vec2::new(5., -5.));
     }
 
     #[test]
     fn vec2_not_equal() {
-        assert_ne!(Vec2::new(5, 6), Vec2::new(6, 5));
+        assert_ne!(Vec2::new(5., 6.), Vec2::new(6., 5.));
     }
 
     #[test]
     fn vec2_add() {
-        assert_eq!(Vec2::new(5, 5), Vec2::new(2, 3) + Vec2::new(3, 2));
+        assert_eq!(Vec2::new(5., 5.), Vec2::new(2., 3.) + Vec2::new(3., 2.));
     }
 
     #[test]
     fn vec2_sub() {
-        assert_eq!(Vec2::new(-5, 20), Vec2::new(0, 30) - Vec2::new(5, 10));
+        assert_eq!(Vec2::new(-5., 20.), Vec2::new(0., 30.) - Vec2::new(5., 10.));
     }
 
     #[test]
     fn vec2_dot() {
-        assert_eq!(200, Vec2::new(10, 10).dot(Vec2::new(10, 10)));
+        assert_eq!(200., Vec2::new(10., 10.).dot(Vec2::new(10., 10.)));
     }
 
     #[test]
     fn vec3_equal() {
-        assert_eq!(Vec3::new(5, 5, 5), Vec3::new(5, 5, 5));
+        assert_eq!(Vec3::new(5., 5., 5.), Vec3::new(5., 5., 5.));
     }
 
     #[test]
     fn vec3_not_equal() {
-        assert_ne!(Vec3::new(5, 6, 7), Vec3::new(6, 5, 9));
+        assert_ne!(Vec3::new(5., 6., 7.), Vec3::new(6., 5., 9.));
     }
 
     #[test]
     fn vec3_add() {
-        assert_eq!(Vec3::new(5, 5, 5), Vec3::new(2, 7, 1) + Vec3::new(3, -2, 4));
+        assert_eq!(Vec3::new(5., 5., 5.), Vec3::new(2., 7., 1.) + Vec3::new(3., -2., 4.));
     }
 
     #[test]
     fn vec3_sub() {
-        assert_eq!(Vec3::new(5, 20, 7), Vec3::new(10, 30, 10) - Vec3::new(5, 10, 3));
+        assert_eq!(Vec3::new(5., 20., 7.), Vec3::new(10., 30., 10.) - Vec3::new(5., 10., 3.));
     }
 
     #[test]
     fn vec3_dot() {
-        assert_eq!(300, Vec3::new(10, 10, 10).dot(Vec3::new(10, 10, 10)));
+        assert_eq!(300., Vec3::new(10., 10., 10.).dot(Vec3::new(10., 10., 10.)));
     }
 
     #[test]
     fn vec3_cross() {
-        assert_eq!(Vec3::new(10, 51, -42), Vec3::new(3, 6, 8).cross(Vec3::new(9, 4, 7)));
+        assert_eq!(Vec3::new(10., 51., -42.), Vec3::new(3., 6., 8.).cross(Vec3::new(9., 4., 7.)));
     }
 
 }
