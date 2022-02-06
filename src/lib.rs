@@ -34,19 +34,18 @@
 //! }
 //! ```
 
-use num::Num;
-use std::{fmt, ops::{Add, Sub, Neg}};
+use std::{fmt, ops::{Add, Sub, Mul, Neg}};
 
 #[allow(unused)]
 
 /// implementation of a 2D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec2<T: Num> {
+pub struct Vec2<T: Add + Sub + Mul> {
     x: T,
     y: T
 }
 
-impl<T: Num + Copy> Vec2<T> {
+impl<T: Add<Output = T> + Sub + Mul<Output = T> + Copy> Vec2<T> {
     /// returns a new Vec2 with the specified coordinates
     /// 
     /// # Examples
@@ -85,7 +84,7 @@ impl<T: Num + Copy> Vec2<T> {
     }
 }
 
-impl<T: Num> Add for Vec2<T> {
+impl<T: Sub + Mul + Add<Output = T>> Add for Vec2<T> {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
@@ -93,7 +92,7 @@ impl<T: Num> Add for Vec2<T> {
     }
 }
 
-impl<T: Num> Sub for Vec2<T> {
+impl<T: Sub<Output = T> + Add + Mul> Sub for Vec2<T> {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
@@ -101,7 +100,7 @@ impl<T: Num> Sub for Vec2<T> {
     }
 }
 
-impl<T: Num + std::fmt::Display> fmt::Display for Vec2<T> {
+impl<T: Add + Sub + Mul + std::fmt::Display> fmt::Display for Vec2<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {})", self.x, self.y)
     }
@@ -109,13 +108,13 @@ impl<T: Num + std::fmt::Display> fmt::Display for Vec2<T> {
 
 /// implementation of a 3D vector
 #[derive(PartialEq, Debug, Clone, Copy)]
-pub struct Vec3<T: Num> {
+pub struct Vec3<T: Add + Sub + Mul + Neg> {
     x: T,
     y: T,
     z: T
 }
 
-impl<T: Num + Copy + Neg<Output = T>> Vec3<T> {
+impl<T: Add<Output = T> + Sub<Output = T> + Mul<Output = T> + Copy + Neg<Output = T>> Vec3<T> {
     /// returns a new Vec3 with the specified coordinates
     ///
     /// # Examples
@@ -178,7 +177,7 @@ impl<T: Num + Copy + Neg<Output = T>> Vec3<T> {
     }
 }
 
-impl<T: Num> Add for Vec3<T> {
+impl<T: Add<Output = T> + Sub + Mul + Neg> Add for Vec3<T> {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
@@ -186,7 +185,7 @@ impl<T: Num> Add for Vec3<T> {
     }
 }
 
-impl<T: Num> Sub for Vec3<T> {
+impl<T: Add + Sub<Output = T> + Mul + Neg> Sub for Vec3<T> {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
@@ -194,7 +193,7 @@ impl<T: Num> Sub for Vec3<T> {
     }
 }
 
-impl<T: Num + std::fmt::Display> fmt::Display for Vec3<T> {
+impl<T: Add + Sub + Mul + Neg + std::fmt::Display> fmt::Display for Vec3<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {}, {})", self.x, self.y, self.z)
     }
@@ -208,7 +207,7 @@ mod tests {
 
     #[test]
     fn vec2_equal() {
-        assert_eq!(Vec2::new(5, 5), Vec2::new(5, 5));
+        assert_eq!(Vec2::new(5, -5), Vec2::new(5, -5));
     }
 
     #[test]
@@ -223,7 +222,7 @@ mod tests {
 
     #[test]
     fn vec2_sub() {
-        assert_eq!(Vec2::new(5, 20), Vec2::new(10, 30) - Vec2::new(5, 10));
+        assert_eq!(Vec2::new(-5, 20), Vec2::new(0, 30) - Vec2::new(5, 10));
     }
 
     #[test]
@@ -243,7 +242,7 @@ mod tests {
 
     #[test]
     fn vec3_add() {
-        assert_eq!(Vec3::new(5, 5, 5), Vec3::new(2, 3, 1) + Vec3::new(3, 2, 4));
+        assert_eq!(Vec3::new(5, 5, 5), Vec3::new(2, 7, 1) + Vec3::new(3, -2, 4));
     }
 
     #[test]

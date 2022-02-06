@@ -1,6 +1,6 @@
 [package]
 name = "vecs"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["JadonBelair"]
 license = "MIT"
@@ -12,4 +12,3 @@ keywords = ["vectors", "vector"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-num = "0.4.0"
