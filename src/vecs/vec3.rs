@@ -71,7 +71,7 @@ impl<T: Float + Copy> Vec3<T> {
         Vec3::new(x, -y, z)
     }
 
-    /// returns the length of the vector
+    /// returns the length of the Vec3
     /// 
     /// # Examples
     /// 
@@ -90,7 +90,7 @@ impl<T: Float + Copy> Vec3<T> {
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
-    /// normalizes the vector
+    /// returns the normalized the Vec3
     /// 
     /// # Examples
     /// 
@@ -118,8 +118,10 @@ impl<T: Float + Copy> Vec3<T> {
     /// ```
     /// use vecs::Vec3;
     /// 
+    /// // creates a new Vec3
     /// let v = Vec3::new(-12., 15., -9.);
     /// 
+    /// // stores it's absolute variant
     /// let a = v.abs();
     /// 
     /// assert_eq!(Vec3::new(12., 15., 9.), a);
@@ -135,8 +137,10 @@ impl<T: Float + Copy> Vec3<T> {
     /// ```
     /// use vecs::Vec3;
     /// 
+    /// // creates a new Vec3
     /// let mut v = Vec3::new(9., 7., 1.);
     /// 
+    /// // gives v new values
     /// v.set(5., 0., 8.);
     /// 
     /// assert_eq!(Vec3::new(5., 0., 8.), v);
