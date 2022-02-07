@@ -46,24 +46,99 @@ impl<T: Float + Copy> Vec2<T> {
         self.x * other.x + self.y * other.y
     }
 
+    /// returns the length of the Vec2
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec2
+    /// let v = Vec2::new(10., 10.);
+    /// 
+    /// // gets its length
+    /// let len = v.length();
+    /// 
+    /// assert_eq!(f64::sqrt(200.), len);
+    /// ```
     pub fn length(&self) -> T {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
     }
 
+    /// returns the normal of the Vec2 in (-y, x) format
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec2
+    /// let v = Vec2::new(4., 9.);
+    /// 
+    /// // stores it's normal
+    /// let normal = v.normal();
+    /// 
+    /// assert_eq!(Vec2::new(-9., 4.), normal);
+    /// ```
     pub fn normal(&self) -> Vec2<T> {
         Vec2::new(-self.y, self.x)
     }
 
+    /// returns the normalized the Vec2
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec3
+    /// let v = Vec2::new(100., 0.);
+    /// 
+    /// // stores the normalized Vec3
+    /// let n = v.normalize();
+    /// 
+    /// assert_eq!(Vec2::new(1., 0.), n);
+    /// ```
     pub fn normalize(&self) -> Vec2<T> {
         let length = self.length();
 
         *self / length
     }
     
+    /// returns the absolute version of the Vec2
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec2
+    /// let v = Vec2::new(-12., 15.);
+    /// 
+    /// // stores it's absolute variant
+    /// let a = v.abs();
+    /// 
+    /// assert_eq!(Vec2::new(12., 15.), a);
+    /// ```
     pub fn abs(&self) -> Vec2<T> {
         Vec2::new(self.x.abs(), self.y.abs())
     }
 
+    /// sets the x and y values of the Vec2
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec2
+    /// let mut v = Vec2::new(9., 7.);
+    /// 
+    /// // gives v new values
+    /// v.set(5., 0.);
+    /// 
+    /// assert_eq!(Vec2::new(5., 0.), v);
+    /// ```
     pub fn set(&mut self, x: T, y: T) {
         self.x = x;
         self.y = y;
