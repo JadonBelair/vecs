@@ -71,20 +71,76 @@ impl<T: Float + Copy> Vec3<T> {
         Vec3::new(x, -y, z)
     }
 
+    /// returns the length of the vector
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec3;
+    /// 
+    /// // creates a new Vec3
+    /// let v = Vec3::new(10., 10., 10.);
+    /// 
+    /// // gets its length
+    /// let len = v.length();
+    /// 
+    /// assert_eq!(f64::sqrt(300.), len);
+    /// ```
     pub fn length(&self) -> T {
-        (self.x.powi(2) + self.y.powi(2) +self.z.powi(2)).sqrt()
+        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
+    /// normalizes the vector
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec3;
+    /// 
+    /// // creates a new Vec3
+    /// let v = Vec3::new(100., 0., 0.);
+    /// 
+    /// // stores the normalized Vec3
+    /// let n = v.normalize();
+    /// 
+    /// assert_eq!(Vec3::new(1., 0., 0.), n);
+    /// ```
     pub fn normalize(&self) -> Vec3<T> {
         let length = self.length();
 
         *self / length
     }
     
+    /// returns the absolute version of the Vec3
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec3;
+    /// 
+    /// let v = Vec3::new(-12., 15., -9.);
+    /// 
+    /// let a = v.abs();
+    /// 
+    /// assert_eq!(Vec3::new(12., 15., 9.), a);
+    /// ```
     pub fn abs(&self) -> Vec3<T> {
         Vec3::new(self.x.abs(), self.y.abs(), self.z.abs())
     }
 
+    /// sets the x, y, and z values of the Vec3
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec3;
+    /// 
+    /// let mut v = Vec3::new(9., 7., 1.);
+    /// 
+    /// v.set(5., 0., 8.);
+    /// 
+    /// assert_eq!(Vec3::new(5., 0., 8.), v);
+    /// ```
     pub fn set(&mut self, x: T, y: T, z: T) {
         self.x = x;
         self.y = y;
