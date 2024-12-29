@@ -149,6 +149,54 @@ impl<T: Float + Copy> Vec3<T> {
         Vec3::new(self.x.abs(), self.y.abs(), self.z.abs())
     }
 
+    /// gets the x value of the Vec3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vecs::Vec3;
+    ///
+    /// // creates a new Vec3
+    /// let v = Vec3::new(15.0, 7.0, 2.0);
+    ///
+    /// assert_eq!(15.0, v.x());
+    /// ```
+    pub fn x(&self) -> T {
+        self.x
+    }
+
+    /// gets the y value of the Vec3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vecs::Vec3;
+    ///
+    /// // creates a new Vec3
+    /// let v = Vec3::new(15.0, 7.0, 2.0);
+    ///
+    /// assert_eq!(7.0, v.y());
+    /// ```
+    pub fn y(&self) -> T {
+        self.y
+    }
+
+    /// gets the z value of the Vec3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vecs::Vec3;
+    ///
+    /// // creates a new Vec3
+    /// let v = Vec3::new(15.0, 7.0, 2.0);
+    ///
+    /// assert_eq!(2.0, v.z());
+    /// ```
+    pub fn z(&self) -> T {
+        self.z
+    }
+
     /// sets the x, y, and z values of the Vec3
     /// 
     /// # Examples

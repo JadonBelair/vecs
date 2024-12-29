@@ -143,6 +143,38 @@ impl<T: Float + Copy> Vec2<T> {
         Vec2::new(self.x.abs(), self.y.abs())
     }
 
+    /// gets the x value of the Vec2
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vecs::Vec2;
+    ///
+    /// // creates a new Vec2
+    /// let v = Vec2::new(15.0, 7.0);
+    ///
+    /// assert_eq!(15.0, v.x());
+    /// ```
+    pub fn x(&self) -> T {
+        self.x
+    }
+
+    /// gets the y value of the Vec2
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use vecs::Vec2;
+    ///
+    /// // creates a new Vec2
+    /// let v = Vec2::new(15.0, 7.0);
+    ///
+    /// assert_eq!(7.0, v.y());
+    /// ```
+    pub fn y(&self) -> T {
+        self.y
+    }
+
     /// sets the x and y values of the Vec2
     /// 
     /// # Examples
