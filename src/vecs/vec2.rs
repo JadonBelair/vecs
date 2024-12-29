@@ -17,10 +17,10 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2 called v1
-    /// let v1 = Vec2::new(1., 2.);
+    /// let v1 = Vec2::new(1.0, 2.0);
     /// 
     /// // creates a new Vec2 call v2
-    /// let v2 = Vec2::new(10., 20.);
+    /// let v2 = Vec2::new(10.0, 20.0);
     /// ```
     pub fn new(x: T, y: T) -> Vec2<T> {
         Vec2 { x, y }
@@ -34,13 +34,13 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates 2 new Vec2 objects
-    /// let v1 = Vec2::new(1., 2.);
-    /// let v2 = Vec2::new(1., 2.);
+    /// let v1 = Vec2::new(1.0, 2.0);
+    /// let v2 = Vec2::new(1.0, 2.0);
     /// 
     /// // stores their dot product
     /// let d = v1.dot(v2);
     /// 
-    /// assert_eq!(5, d);
+    /// assert_eq!(5.0, d);
     /// ```
     pub fn dot(&self, other: Vec2<T>) -> T {
         self.x * other.x + self.y * other.y
@@ -54,15 +54,34 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2
-    /// let v = Vec2::new(10., 10.);
+    /// let v = Vec2::new(10.0, 10.0);
     /// 
     /// // gets its length
     /// let len = v.length();
     /// 
-    /// assert_eq!(f64::sqrt(200.), len);
+    /// assert_eq!(f64::sqrt(200.0), len);
     /// ```
     pub fn length(&self) -> T {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+
+    /// returns the squared length of the Vec2
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec2;
+    /// 
+    /// // creates a new Vec2
+    /// let v = Vec2::new(10.0, 10.0);
+    /// 
+    /// // gets its length
+    /// let len = v.length_squared();
+    /// 
+    /// assert_eq!(200.0, len);
+    /// ```
+    pub fn length_squared(&self) -> T {
+        self.x.powi(2) + self.y.powi(2)
     }
 
     /// returns the normal of the Vec2 in (-y, x) format
@@ -73,12 +92,12 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2
-    /// let v = Vec2::new(4., 9.);
+    /// let v = Vec2::new(4.0, 9.0);
     /// 
     /// // stores it's normal
     /// let normal = v.normal();
     /// 
-    /// assert_eq!(Vec2::new(-9., 4.), normal);
+    /// assert_eq!(Vec2::new(-9.0, 4.0), normal);
     /// ```
     pub fn normal(&self) -> Vec2<T> {
         Vec2::new(-self.y, self.x)
@@ -92,12 +111,12 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec3
-    /// let v = Vec2::new(100., 0.);
+    /// let v = Vec2::new(100.0, 0.0);
     /// 
     /// // stores the normalized Vec3
     /// let n = v.normalize();
     /// 
-    /// assert_eq!(Vec2::new(1., 0.), n);
+    /// assert_eq!(Vec2::new(1.0, 0.0), n);
     /// ```
     pub fn normalize(&self) -> Vec2<T> {
         let length = self.length();
@@ -113,12 +132,12 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2
-    /// let v = Vec2::new(-12., 15.);
+    /// let v = Vec2::new(-12.0, 15.0);
     /// 
     /// // stores it's absolute variant
     /// let a = v.abs();
     /// 
-    /// assert_eq!(Vec2::new(12., 15.), a);
+    /// assert_eq!(Vec2::new(12.0, 15.0), a);
     /// ```
     pub fn abs(&self) -> Vec2<T> {
         Vec2::new(self.x.abs(), self.y.abs())
@@ -132,12 +151,12 @@ impl<T: Float + Copy> Vec2<T> {
     /// use vecs::Vec2;
     /// 
     /// // creates a new Vec2
-    /// let mut v = Vec2::new(9., 7.);
+    /// let mut v = Vec2::new(9.0, 7.0);
     /// 
     /// // gives v new values
-    /// v.set(5., 0.);
+    /// v.set(5.0, 0.0);
     /// 
-    /// assert_eq!(Vec2::new(5., 0.), v);
+    /// assert_eq!(Vec2::new(5.0, 0.0), v);
     /// ```
     pub fn set(&mut self, x: T, y: T) {
         self.x = x;

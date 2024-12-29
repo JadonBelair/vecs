@@ -18,10 +18,10 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates a new Vec3 called v1
-    /// let v1 = Vec3::new(1., 2., 3.);
+    /// let v1 = Vec3::new(1.0, 2.0, 3.0);
     /// 
     /// // creates a new Vec3 call v2
-    /// let v2 = Vec3::new(10., 20., 30.);
+    /// let v2 = Vec3::new(10.0, 20.0, 30.0);
     /// ```
     pub fn new(x: T, y: T, z: T) -> Vec3<T> {
         Vec3 { x, y, z }
@@ -35,13 +35,13 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates 2 new Vec3 objects
-    /// let v1 = Vec3::new(1., 2., 3.);
-    /// let v2 = Vec3::new(1., 2., 3.);
+    /// let v1 = Vec3::new(1.0, 2.0, 3.0);
+    /// let v2 = Vec3::new(1.0, 2.0, 3.0);
     /// 
     /// // stores their dot product
     /// let d = v1.dot(v2);
     /// 
-    /// assert_eq!(14, d);
+    /// assert_eq!(14.0, d);
     /// ```
     pub fn dot(&self, other: Vec3<T>) -> T {
         self.x * other.x + self.y * other.y + self.z * other.z
@@ -55,13 +55,13 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates 2 new Vec3 objects
-    /// let v1 = Vec3::new(3., 2., 1.);
-    /// let v2 = Vec3::new(1., 2., 3.);
+    /// let v1 = Vec3::new(3.0, 2.0, 1.0);
+    /// let v2 = Vec3::new(1.0, 2.0, 3.0);
     /// 
     /// // stores their cross product
     /// let v3 = v1.cross(v2);
     /// 
-    /// assert_eq!(Vec3::new(4., -8., 4.), v3);
+    /// assert_eq!(Vec3::new(4.0, -8.0, 4.0), v3);
     /// ```
     pub fn cross(&self, other: Vec3<T>) -> Vec3<T> {
         let x = (self.y * other.z) - (self.z * other.y);
@@ -79,15 +79,34 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates a new Vec3
-    /// let v = Vec3::new(10., 10., 10.);
+    /// let v = Vec3::new(10.0, 10.0, 10.0);
     /// 
     /// // gets its length
     /// let len = v.length();
     /// 
-    /// assert_eq!(f64::sqrt(300.), len);
+    /// assert_eq!(f64::sqrt(300.0), len);
     /// ```
     pub fn length(&self) -> T {
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+    }
+
+    /// returns the squared length of the Vec3
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// use vecs::Vec3;
+    /// 
+    /// // creates a new Vec3
+    /// let v = Vec3::new(10.0, 10.0, 10.0);
+    /// 
+    /// // gets its length
+    /// let len = v.length_squared();
+    /// 
+    /// assert_eq!(300.0, len);
+    /// ```
+    pub fn length_squared(&self) -> T {
+        self.x.powi(2) + self.y.powi(2) + self.z.powi(2)
     }
 
     /// returns the normalized the Vec3
@@ -98,12 +117,12 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates a new Vec3
-    /// let v = Vec3::new(100., 0., 0.);
+    /// let v = Vec3::new(100.0, 0.0, 0.0);
     /// 
     /// // stores the normalized Vec3
     /// let n = v.normalize();
     /// 
-    /// assert_eq!(Vec3::new(1., 0., 0.), n);
+    /// assert_eq!(Vec3::new(1.0, 0.0, 0.0), n);
     /// ```
     pub fn normalize(&self) -> Vec3<T> {
         let length = self.length();
@@ -119,12 +138,12 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates a new Vec3
-    /// let v = Vec3::new(-12., 15., -9.);
+    /// let v = Vec3::new(-12.0, 15.0, -9.0);
     /// 
     /// // stores it's absolute variant
     /// let a = v.abs();
     /// 
-    /// assert_eq!(Vec3::new(12., 15., 9.), a);
+    /// assert_eq!(Vec3::new(12.0, 15.0, 9.0), a);
     /// ```
     pub fn abs(&self) -> Vec3<T> {
         Vec3::new(self.x.abs(), self.y.abs(), self.z.abs())
@@ -138,12 +157,12 @@ impl<T: Float + Copy> Vec3<T> {
     /// use vecs::Vec3;
     /// 
     /// // creates a new Vec3
-    /// let mut v = Vec3::new(9., 7., 1.);
+    /// let mut v = Vec3::new(9.0, 7.0, 1.0);
     /// 
     /// // gives v new values
-    /// v.set(5., 0., 8.);
+    /// v.set(5.0, 0.0, 8.0);
     /// 
-    /// assert_eq!(Vec3::new(5., 0., 8.), v);
+    /// assert_eq!(Vec3::new(5.0, 0.0, 8.0), v);
     /// ```
     pub fn set(&mut self, x: T, y: T, z: T) {
         self.x = x;
