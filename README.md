@@ -1,4 +1,4 @@
-[![Crate](https://img.shields.io/badge/crates.io-v0.2.3-orange.svg)](https://crates.io/crates/vecs)
+[![Crate](https://img.shields.io/badge/crates.io-v0.2.4-orange.svg)](https://crates.io/crates/vecs)
 [![API](https://img.shields.io/badge/docs-passing-green.svg)](https://docs.rs/vecs/latest/vecs/)
 
 # a simple vector math library
